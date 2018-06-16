@@ -31,11 +31,11 @@
       tags: nginx
       become: yes
 
-    - name: Nginx | Install (apt)
-      apt: update_cache=yes force=yes state=present name=nginx
-      when: nginx_present|failed
-      tags: nginx
-      become: yes
+ #   - name: Nginx | Install (apt)
+ #     apt: update_cache=yes force=yes state=present name=nginx
+ #     when: nginx_present|failed
+ #     tags: nginx
+ #     become: yes
     when: ansible_os_family == "Debian"
 
   - block:
