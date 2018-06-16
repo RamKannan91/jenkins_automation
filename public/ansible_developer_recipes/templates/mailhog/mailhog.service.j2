@@ -1,0 +1,10 @@
+[Unit]
+Description=Mailhog Daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/MailHog
+StandardOutput=journal
+
+[Install]
+WantedBy=multi-user.target

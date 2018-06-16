@@ -1,0 +1,240 @@
+- hosts: localhost
+
+  pre_tasks:
+    - name: Include vars from local user_vars.yml if found
+      include_vars: "{{ item }}"
+      with_first_found:
+       - "user_vars.yml"
+       - "user_vars_default.yml"
+      tags:
+       - restart
+
+    - name: Include release related vars
+      include_vars: "{{ item }}"
+      with_first_found:
+       - "{{root_dir}}/defaults/{{ansible_distribution_release}}_vars.yml"
+       - "{{root_dir}}/defaults/default_vars.yml"
+
+  vars:
+    root_dir: "{{playbook_dir}}"
+    role_dir: "{{root_dir}}"
+    deploy_user: "{{ansible_user_id}}"
+    apps_dir: "/home/{{ansible_user_id}}/apps"
+    desktop_dir: "Desktop"
+    icons_dir: "{{apps_dir}}/shared_icons"
+    mysql_root_user: root
+    mysql_root_password: devroot
+    apache_mode: worker # use prefork or worker variables
+    docker_machine_dir: /opt/docker
+
+    brackets_io_version: 1.6
+    dbeawer_version: 3.7.2
+    dmd_version: 2.072.1
+    chruby_version: 0.3.9
+    doxygen_version: 1.8.11
+    docker_machine_version: "0.10.0"
+    go_version: "1.10.1"
+    intellij_version: 2017.3.1 # 2017.1.5 #2016.3.4 #2016.1.1 #14.1.4
+    java_version: 8
+    jython_version: 2.7.0
+    lighttable_version: 0.8.1
+    mailhog_version: 0.1.6
+    mongo_version: 3
+    monit_version: "5.14-2"
+    nodejs_version: "4.x" # 0.10 0.12 4.x 5.x
+    # nvm
+    nvm_version: 0.31.1
+    option_nodejs_install_with_nvm: false
+    option_nodejs_link_globally: false
+    option_integrate_w_bash: false
+    option_integrate_w_zsh: false
+    # /nvm
+    oracle_vbox_version: 4.3
+    phpstorm_version: "2017.3.1" # "2017.2.4" # "2017.3.1" # "2017.1.4" # "2016.3.2" # "2016.2" "2016.1" # 10.0.3  | "10.0" | 9.0.2 | 8.0.3 | 8.0.1 | 7.1.4 | 6.0.3 | 5.0.4
+    php_xdebug_version: 2.2.4
+    phpcs_version: 2.5.1
+    phpcbf_version: 2.5.1
+    pycharm_version: "2017.3.1" # "2016.3.2" #"2016.2" #"2016.1.4" #"2016.1"# 5.0.1 # 4.5.4
+#    pycharm_edition: community # professional | community
+    python_version: "3.6.5"
+    robomongo_version: 0.8.5
+    rubies_location: /opt/rubies
+    ruby_install_version: 0.6.0
+    option_ruby_install_setsystem: true
+    ruby_version: 2.3.3
+    rubymine_version: 7.1.4
+#    s3cmd_version: 1.6.1
+    schema_crawler_version: "14.09.03"
+    travis_version: 1.8.2
+    terraform_version: 0.6.15
+    swaggerui_version: 2.1.4
+
+    vagrant_version: 1.8.1
+    vagrant_plugins:
+      - vagrant-vbguest
+      - vagrant-hostsupdater
+      - vagrant-auto_network
+
+    php_family: default # 5.4 | 5.5 | 5.6 | default
+    hypervisor: esx
+    # "git-blame" fails to compile with recent atom
+    atom_packages: ["angularjs","atom-css-comb", "meteor-api", "emmet", "file-icons", "tag", "expand-region", "atom-alignment", "atom-beautify", "minimap", "set-syntax", "jshint", "linter", "linter-jscs", "linter-flake8", "linter-swagger", "jscs-fixer", "highlight-line", "highlight-column", "autocomplete-plus", "toggle-quotes", "todo-show", "monokai", "language-restructuredtext", "merge-conflict", "pigments", "atom-typescript"]
+
+    sshd_config_lines:
+      - {regexp: "^Protocol.*", line: "Protocol 2"}
+      - {regexp: "^PermitRootLogin.*", line: "PermitRootLogin no"}
+      - {regexp: "^RSAAuthentication.*", line: "RSAAuthentication yes"}
+      - {regexp: "^PubkeyAuthentication.*", line: "PubkeyAuthentication yes"}
+      - {regexp: "^ChallengeResponseAuthentication.*", line: "ChallengeResponseAuthentication no"}
+      - {regexp: "^PasswordAuthentication.*", line: "PasswordAuthentication no"}
+      - {regexp: "^MaxAuthTries.*", line: "MaxAuthTries 3"}
+
+    syncthing_home: "home/{{deploy_user}}"
+
+  tasks:
+
+     - include: use/__detect_init_system.yml
+     - include: use/__detect_node_path.yml
+     - include: use/__detect_ruby_path.yml
+
+#     - include: tasks_cleanupubuntu.yml                   # removes games, lens, etc
+#     - include: tools/tasks_ubuntu_disableguestlogin.yml  # disable guest login enabled by default
+#     - include: tasks_git.yml                             # upgrade git to the most recent one
+#     - include: tasks_python.yml                          # basic updates to py & pip
+#     - include: tasks_python3.yml                         # python3 
+#     - include: tasks_worktools.yml                       # swiss knife for desktop utilities
+#     - include: tasks_google_chrome.yml                   # google chrome browser
+#     - include: tools/tasks_tmux.yml                      # If you are the tmux fun
+#     - include: tools/tasks_ssvnc.yml                     # VNC Viewer (alternative to Reminna, to overcome some issues with specific VNC servers)
+
+#     - include: tasks_mongodb_3.yml                       # mongodb 3.0
+#     - include: tasks_mysql.yml                           # MYSQL 5.5
+#     - include: tasks_percona_toolkit.yml                 # percona tools for mysql
+
+
+#     - include: tasks_nginx.yml                           # nginx
+#     - include: tasks_apache.yml                          # apache prefork|worker
+
+#     - include: tasks_nodejs.yml                          # node 0.10.* 0.12.*
+#     - include: tasks_nvm.yml                             # - // - using nvm
+#     - include: tasks_java.yml                            # java 6-7-8
+#     - include: java/tasks_jython.yml                     # python for jvm (Jython project)
+#     - include: java/tasks_gradle.yml                     # gradle java build tool
+#     - include: tasks_php_apache.yml                      # php 5.5 for apache
+#     - include: tasks_ruby.yml                            # Set system ruby to 2.1
+#     - include: tasks_d.yml                               # D Language
+
+#     - include: tasks_jetbrains_phpstorm.yml              # PHP IDE
+#     - include: tasks_jetbrains_pycharm_community.yml     # PY IDE
+#     - include: tasks_jetbrains_rubymine.yml              # RUBY IDE
+#     - include: tasks_jetbrains_intellij_community.yml    # JAVA IDE
+
+#     - include: tasks_robomongo.yml                       # mongo GUI tool
+#     - include: tasks_dbeawer.yml                         # mysql | postgre GUI tool
+
+#     - include: tasks_docker.yml                          # docker
+#     - include: tasks_docker_compose.yml                  # docker compose
+#     - include: tasks_docker_machine.yml                  # docker machine
+#     - include: tasks_docker_kitematic.yml                # docker kitematic
+
+#     - include: tasks_oracle_virtualbox.yml               # Oracle Virtual Box
+#     - include: tasks_vagrant.yml                         # Vagrant
+
+#     MICROSOFT
+#     - include: tools/tasks_azure_tools.yml              # Azure tools as per https://docs.microsoft.com/en-us/azure/xplat-cli-install
+
+#      RUBY
+#     - include: ruby/ch_ruby.yml                          # chruby
+#     - include: ruby/ruby_install.yml                     # ruby-install
+#     - include: ruby/ruby.yml                             # installs ruby itself
+
+#      LAMP
+#     - include: lamp/phpdox.yml                            # phpdox documentator
+#     - include: lamp/doxygen.yml                           # doxygen documentator
+#     - include: lamp/phploc.yml                            # phploc tool
+#     - include: lamp/phpcs.yml                             # phpcs tool
+#     - include: lamp/phpmd.yml                             # phpmd tool
+
+#     GO language
+#     - include: tasks_go.yml                              # google go language
+
+#     ERLANG & ELIXIR
+#     - include: tasks_erlang.yml
+#     - include: tasks_elixir.yml
+
+#     - include: tools/tasks_expect.yml                    # expect tool
+#     - include: tools/tasks_plantuml.yml                  # plant uml
+#     - include: tools/tasks_schemacrawler.yml             # DB Schema crawler
+#     - include: tools/tasks_schemaspy.yml                 # DB Schema Spy tool
+#     - include: tools/tasks_toggle.yml                    # toggle time tracker
+#     - include: tools/tasks_dpr.yml                       # d.pr screenshoting tool
+#     - include: tools/tasks_zeal.yml                      # zeal documentation browser
+
+#     VMWARE
+#     - include: vmware/tasks_vmware_tools.yml             # ESX vmware tools
+
+#    DEVELOPMENT
+#     - include: tools/tasks_mailhog.yml                    # Web and API based SMTP testing
+#     - include: tools/tasks_swaggerui.yml                  # REST API documentation viewer
+#     - include: tools/tasks_swaggerui.yml                  # REST API documentation viewer
+#     - include: tools/tasks_pgweb.yml                      # WEB GUI for postgres
+
+# COMMUNICATIONS
+#     - include: tools/tasks_skype.yml                       # skype 4.3
+#     - include: tools/tasks_slack_client.yml               # slack
+#     - include: tools/tasks_hipchat_client.yml             # hipchat
+#     - include: tools/tasks_fabric.yml                     # http://www.fabfile.org/ deployment tool
+
+#  TIME TRACKING
+#     - include: tools/tasks_toggle.yml
+
+#  DESKTOP shortcuts
+#     - include: e531/desktop_icons_pack.yml              # desktop icons
+#     - include: e531/shortcuts.yml                       # desktop shortcuts
+
+# Local LAMP debugging
+#     - include: vagrant/tasks_vagrant_php_xdebug.yml
+
+# 3rd party code editors
+#     - include: tools/tasks_microsoft_visual_studio_code.yml
+#     - include: tools/tasks_brackets_io.yml
+#     - include: tools/tasks_lighttable.yml
+#     - include: tools/tasks_atom.yml
+#     - include: tools/tasks_sublime.yml
+
+# 3rd party tools
+#     - include: tools/tasks_s3cmd.yml  # amazon s3 helper tool
+#     - include: tools/tasks_openshift_rhctools.yml  # redhat openshift cli
+#     - include: tools/tasks_travis_clienttools.yml  # travis cli
+#     - include: tools/tasks_truecrypt.yml  # legacy truecrypt implementation
+#     - include: tools/tasks_veracrypt.yml  # truecrypt implementation and successor
+#     - include: tools/tasks_chrome_remote_desktop.yml  # remote access to your box
+#     - include: tools/tasks_dpr.yml # d.pr python client, recently had issues with running
+#     - include: tools/tasks_osquery.yml  # osquery.io package to query server data via sql like syntax
+#     - include  tools/tasks_logwatch.yml # logwatch
+#     - include: tools/tasks_rsyslog.yml  # syslog server
+#     - include: tools/tasks_syncthing.yml # opensource file synchronizer
+#     - include: tools/tasks_kindlegen.yml # Installs kindle convertor for publishing books to amazon
+
+# Devops tools
+#     - include: tasks_terraform.yml
+
+
+# Security tools
+#     - include: secure/tasks_auditd.yml
+#     - include: secure/tasks_debsums.yml
+#     - include: secure/tasks_lynis.yml
+#     - include: secure/tasks_rkhunter.yml
+
+
+
+  handlers:
+    - name: restart apache2
+      service: name=apache2 state=restarted
+      become: yes
+    - name: restart vmtoolsd
+      service: name=vmtoolsd state=restarted
+      become: yes
+    - name: restart fpm
+      service: name=php5-fpm state=restarted
+      become: yes
