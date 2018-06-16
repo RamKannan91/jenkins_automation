@@ -32,7 +32,7 @@
       become: yes
 
     - name: Nginx | Install (apt)
-      apt: update_cache=yes force=yes state=present pkg=nginx
+      apt: update_cache=yes force=yes state=present name=nginx
       when: nginx_present|failed
       tags: nginx
       become: yes
