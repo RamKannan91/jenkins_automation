@@ -1,7 +1,0 @@
-- name: Vagrant | DBs | Import Vagrant dbs from /vagrant/databag/db
-  shell: vagrant_importdbs
-  args:
-    chdir: /vagrant/databag/db/
-    creates: /vagrant/databag/db/.nodbs
-  tags:
-    -dbimport   

@@ -1,4 +1,0 @@
----
-  apt_source: {
-                  mongodb: "trusty"
-              }

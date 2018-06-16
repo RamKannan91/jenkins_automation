@@ -1,5 +1,0 @@
-- name: Memcached | Install Memcached
-  apt: name=memcached state=installed
-  become: yes
-  tags:
-    -memcached
