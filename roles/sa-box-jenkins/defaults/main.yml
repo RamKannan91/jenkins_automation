@@ -16,13 +16,13 @@
   jenkins_hostname: localhost
 
   jenkins_admin_user: admin
-  jenkins_admin_password: Flvby
+  jenkins_admin_password: password
   # Admin and deploy users are REQUIRED. Feel free to redefine or amend passwords
 
   jenkins_users:
     - {
-      name: "jenkins",
-      password: "jenkins",
+      name: "admin",
+      password: "password",
       email: "no-reply@localhost"
       }
 
