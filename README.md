@@ -1,4 +1,4 @@
-Dive into continious integration with Jenkins.
+CI with Jenkins.
 =============================================
 
 ## Background
@@ -11,26 +11,6 @@ or to run unit tests. It can be integrated with communication tools of your choi
 email.
 
 If you haven't had a chance to try Jenkins earlier, feel free to use tutorial below to start.
-
-## Manual installation
-In order to install Jenkins, we will need:
- - Unix system.  I would recommend debian based, like ubuntu server LTS
- - Java runtime environment installed. I usually use Java 8
- - Get base Jenkins setup
- - Install necessary plugins
- - Put behind web server.
-
- ### Install Java
- Easist way to install Java, is using apt-get package manager
- <pre>
-sudo apt-get install python-software-properties
-sudo add-apt-repository ppa:webupd8team/java
-sudo apt-get update
-</pre>
-Once you added ppa above, you can install java with the following command:
-<pre>
-sudo apt-get install oracle-java8-installer
-</pre>
 
 ### Get base Jenkins setup
 You will need to execut series of the commands, namely: add jenkins signing key,
@@ -47,78 +27,6 @@ need to go to the host were your Jenkins is installed, for example: http://jenki
 Navigate to Manage Jenkins (on the left) and choose "Configure Global Security" item
 on the page loaded.
 ![enable security](https://raw.githubusercontent.com/Voronenko/devops-jenkins-box-template/master/docs/enable_security.png)
-
-Now look below on the Matrix based security (select it, if it is not selected previously),
-and make sure Anonymous only has the Read right under the View group.
-Click save at the bottom of the page. After the page load, you'll see a login form, simply ignore that,
-go to the home page (like, for example, http://jenkins-host:8080/). You'll see this sign up form,
-the first signed up account will be the administrator.
-
-### Power of plugins.
-Jenkins would not be so powerful without plugins. Usually I install next plugins by default:
-
-- bitbucket
-  BitBucket plugin is designed to offer integration between BitBucket and Jenkins. BitBucket offer a Jenkins hook, but this one just trigger a build for a specific job on commit, nothing more. BitBucket plugin, like GitHub plugin already did, use the POST hook payload to check which job has to get triggered based on changed repository/branch.
-  Plugin page:  https://wiki.jenkins-ci.org/display/JENKINS/BitBucket+Plugin
-
-- bitbucket-pullrequest-builder
-This plugin builds pull requests from Bitbucket.org. Must have plugin, if you perfor QA deploy of each pull request submitted.
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Bitbucket+pullrequest+builder+plugin
-
-- build-pipeline-plugin
-This plugin provides a Build Pipeline View of upstream and downstream connected jobs that typically form a build pipeline.  In addition, it offers the ability to define manual triggers for jobs that require intervention prior to execution, e.g. an approval process outside of Jenkins. Provides nice visualization of the pathes & flows.
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Build+Pipeline+Plugin
-
-- copyartifact
-Adds a build step to copy artifacts from another project. The plugin lets you specify which build to copy artifacts from (e.g. the last successful/stable build, by build number, or by a build parameter). You can also control the copying process by filtering the files being copied, specifying a destination directory within the target project, etc
-Plugin page:  https://wiki.jenkins-ci.org/display/JENKINS/Copy+Artifact+Plugin
-- credentials
-Adds a build step to copy artifacts from another project. The plugin lets you specify which build to copy artifacts from (e.g. the last successful/stable build, by build number, or by a build parameter). You can also control the copying process by filtering the files being copied, specifying a destination directory within the target project, etc
-Plugin page:  https://wiki.jenkins-ci.org/display/JENKINS/Credentials+Plugin
-- delivery-pipeline-plugin
-Visualisation of Delivery/Build Pipelines, renders pipelines based on upstream/downstream jobs. When using Jenkins as a build server it is now possible with the Delivery Pipeline Plugin to visualise one or more Delivery Pipelines in the same view even in full screen
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Delivery+Pipeline+Plugin
-- environment-script
-Environment Script Plugin allows you to have a script run after SCM checkout, before the build. If the script fails (exit code isn't zero), the build is marked as failed.
-Any output on standard out is parsed as environment variables that are applied to the build. It supports "override syntax" to append paths to PATH-like variables
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Environment+Script+Plugin
-- git
-Supports popular git version control system
-- ghprb
-This plugin builds pull requests in github. Must have, if your software development life cycle includes deploying pull requests
-to PR environment to test.
-Plugin page:  https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin
-- greenballs The most funny plugin - changes Jenkins to use green balls instead of blue for successful builds
- Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Green+Balls
-
-- hipchat
-This plugin allows your team to setup build notifications to be sent to HipChat rooms.To enable notifications add "HipChat Notifications" as a post-build step.
-Plugin page:  https://wiki.jenkins-ci.org/display/JENKINS/HipChat+Plugin
-- junit
-Allows JUnit-format test results to be published. Note: number of tools, including Karma, PhpUNIT & other tools allow to publish test results in a JUnit format. Thus this is must have plugin for unit test flows.
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin
-- matrix-auth
-Offers matrix-based security authorization strategies (global and per-project). Good, if you have shared build server across several teams,
-Plugin page:  https://wiki.jenkins-ci.org/display/JENKINS/Matrix+Authorization+Strategy+Plugin
-- parameterized-trigger
-This plugin lets you trigger new builds when your build has completed, with various ways of specifying parameters for the new build.
-You can add multiple configurations: each has a list of projects to trigger, a condition for when to trigger them (based on the result of the current build), and a parameters section.
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin
-- rebuild
-Plays nice the with previous one: this plug-in allows the user to rebuild a parametrized build without entering the parameters again.
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
-- ssh You can use the SSH Plugin to run shell commands on a remote machine via ssh
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/SSH+plugin
-- s3 allows uploading artifacts to S3 with multiple options.
-Plugin page:  https://wiki.jenkins-ci.org/display/JENKINS/S3+Plugin
-- throttle-concurrents
-This plugin allows for throttling the number of concurrent builds of a project running per node or globally.
-Unfortunately, this is must have plugin for Node (0.10-0.12) projects with NPM  - two concurrent npm install will fail often.
-Plugin page: https://wiki.jenkins-ci.org/display/JENKINS/Throttle+Concurrent+Builds+Plugin
-
-Plugins are installed using Plugin manager on a Manage Jenkins Section.
-![Plugins manager](https://raw.githubusercontent.com/Voronenko/devops-jenkins-box-template/master/docs/plugins-manager.png)
-
 
 ### Put behind web server
 Usually I hide Jenkins behind nginx. Typical configuration looks like the one below
@@ -154,8 +62,7 @@ It includes following files:
 
 - *bootstrap.sh* - installs ansible alongside with dependences.
 - *init.sh* - initializes 3rd party dependencies
-- *.projmodules* - fully compatible with .gitmodules git syntax,  specifies list of the dependencies
-that will be used by the playbook.
+- *.projmodules* - fully compatible with .gitmodules git syntax,  specifies list of the dependencies that will be used by the playbook.
 In particular, it includes ansible- by default developer_recipes (repository with set of handy deployment recipes)
 and ansible role called  *sa-box-bootstrap* responsible for box securing steps (assuming you plan to put Jenkins on a remote hosts).
 
@@ -214,7 +121,7 @@ You need to override:
 <pre>
 jenkins_user: jenkins
 jenkins_authorized_keys:
-  - "{{playbook_dir}}/components/files/ssh/vyacheslav.pub"
+  - "{{playbook_dir}}/components/files/ssh/ramkannan.pub"
 
 jenkins_domain: "vagrant.dev"
 jenkins_host: "jenkins"
@@ -251,12 +158,6 @@ jenkins_plugins:
   - delivery-pipeline-plugin # https://wiki.jenkins-ci.org/display/JENKINS/Delivery+Pipeline+Plugin
   - environment-script # https://wiki.jenkins-ci.org/display/JENKINS/Environment+Script+Plugin
   - git
-  - ghprb # https://wiki.jenkins-ci.org/display/JENKINS/GitHub+pull+request+builder+plugin
-  - greenballs # https://wiki.jenkins-ci.org/display/JENKINS/Green+Balls
-  - hipchat # https://wiki.jenkins-ci.org/display/JENKINS/HipChat+Plugin
-  - junit # https://wiki.jenkins-ci.org/display/JENKINS/JUnit+Plugin
-  - matrix-auth # https://wiki.jenkins-ci.org/display/JENKINS/Matrix+Authorization+Strategy+Plugin
-  - matrix-project #https://wiki.jenkins-ci.org/display/JENKINS/Matrix+Project+Plugin
   - parameterized-trigger #https://wiki.jenkins-ci.org/display/JENKINS/Parameterized+Trigger+Plugin
   - rebuild # https://wiki.jenkins-ci.org/display/JENKINS/Rebuild+Plugin
   - ssh
@@ -266,7 +167,7 @@ jenkins_plugins:
 
 ## Code in action
 
-Code can be downloaded from repository [https://github.com/Voronenko/devops-jenkins-box-template](https://github.com/Voronenko/devops-jenkins-box-template)
+Code can be downloaded from repository [https://github.com/RamKannan91/jenkins_automation](https://github.com/RamKannan91/jenkins_automation)
 In order to use it - fork it, adjust parameters to your needs, and use.
 
 Running is as simple as
@@ -274,4 +175,4 @@ Running is as simple as
 ./setup_jenkins.sh
 </pre>
 
-Welcome to the world of continious integration & deployment.
+Welcome to the world of CI/CD.
