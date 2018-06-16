@@ -18,6 +18,8 @@
           - "distribution_tasks/{{ (override_os_family is defined) | ternary(override_os_family,ansible_os_family) | lower }}.yml"
         skip: true
 
+  - debug: var=ansible_date_time
+
   - block:
 
     - name: Bootstrap | check apt last update
