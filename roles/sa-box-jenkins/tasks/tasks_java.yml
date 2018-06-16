@@ -27,7 +27,7 @@
       package: name=/tmp/java.rpm state=present
       become: yes
 
-    when: (ansible_distribution == 'RedHat' or ansible_distribution == 'CentOS' or ansible_distribution == 'Fedora') and java_present | failed
+    when: (ansible_distribution == 'RedHat' or ansible_distribution == 'CentOS' or ansible_distribution == 'Fedora' or ansible_distribution == 'Ubuntu') and java_present | failed
 
   - block:
 
