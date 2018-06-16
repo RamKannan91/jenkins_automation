@@ -1,5 +1,5 @@
-#!/bin/sh
+#!/bin/bash
+set -o errexit
+set -o nounset
 
-set -e
-
-ansible-playbook jenkins.yml --limit jenkins
+ansible-playbook jenkins.yml -vvvv #--limit jenkins

@@ -1,6 +1,6 @@
-#!/bin/sh
+#!/bin/bash
+set -o errexit
+set -o nounset
 
-set -e
-
-ansible-playbook jenkins_bootstrap.yml --limit jenkins_bootstrap --inventory-file=hostsbootstrap -vvvv
-ansible-playbook jenkins.yml --limit jenkins
+ansible-playbook jenkins_bootstrap.yml -vvvv #--limit jenkins_bootstrap --inventory-file=hostsbootstrap -vvvv
+ansible-playbook jenkins.yml -vvvv #--limit jenkins
