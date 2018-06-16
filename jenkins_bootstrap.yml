@@ -1,6 +1,9 @@
 ---
 - hosts: 127.0.0.1
   connection: local
+  become: true
+  become_method: sudo
+  gather_facts: no
 
   vars_files:
     - ./jenkins_vars.yml
