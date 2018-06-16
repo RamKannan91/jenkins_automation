@@ -21,4 +21,5 @@
 
  ansible_os_family: "Debian"
  ansible_distribution: "Debian"
+ ansible_pkg_mgr: "apt"
  ansible_distribution_major_version: 6
