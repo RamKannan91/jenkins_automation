@@ -26,7 +26,6 @@ By default, it will install base Jenkins setup, which is insecure. You will
 need to go to the host were your Jenkins is installed, for example: http://jenkins-host:8080/.
 Navigate to Manage Jenkins (on the left) and choose "Configure Global Security" item
 on the page loaded.
-![enable security](https://raw.githubusercontent.com/Voronenko/devops-jenkins-box-template/master/docs/enable_security.png)
 
 ### Put behind web server
 Usually I hide Jenkins behind nginx. Typical configuration looks like the one below
