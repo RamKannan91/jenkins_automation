@@ -23,4 +23,4 @@
  ansible_distribution: "Debian"
  ansible_pkg_mgr: "apt"
  ansible_distribution_major_version: 6
- ansible_distribution_release: "Final"
+ ansible_distribution_release: "jessie"
