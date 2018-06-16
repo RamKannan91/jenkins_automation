@@ -19,5 +19,6 @@
    - "{{ssl_key_name}}.key"
    - "{{ssl_cert_name}}.crt"
 
- ansible_os_family: "redhat"
+ ansible_os_family: "Debian"
+ ansible_distribution: "Debian"
  ansible_distribution_major_version: 6
