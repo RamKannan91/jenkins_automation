@@ -3,7 +3,7 @@
   connection: local
   become: true
   become_method: sudo
-  gather_facts: no
+  gather_facts: yes
 
   vars_files:
     - ./jenkins_vars.yml
