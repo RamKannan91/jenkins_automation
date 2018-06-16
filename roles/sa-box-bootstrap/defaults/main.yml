@@ -3,7 +3,7 @@
   root_dir: "{{ role_path }}"
   role_dir: "{{ role_path }}"
 
-# timezone: "Europe/Kiev"
+  timezone: "Europe/Kiev"
 
   hostname: "{{ansible_host_name | default(ansible_nodename)}}"
 
